@@ -7,3 +7,5 @@ hsml
 joblib
 xgboost
 tensorflow
+dataframe_image
+modal

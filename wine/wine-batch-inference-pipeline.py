@@ -71,11 +71,11 @@ def g():
     # the insertion was done asynchronously, so it will take ~1 min to land on App
     history_df = pd.concat([history_df, monitor_df])
 
-    df_recent = history_df.tail(40)
-    dfi.export(df_recent, './df_recent.png', table_conversion = 'matplotlib')
+    df_recent = history_df.tail(10)
+    dfi.export(df_recent, './wine_df_recent.png', table_conversion = 'matplotlib')
 
     dataset_api = project.get_dataset_api()    
-    dataset_api.upload("./df_recent.png", "Resources/images", overwrite=True)
+    dataset_api.upload("./wine_df_recent.png", "Resources/images", overwrite=True)
     
     predictions = history_df[['prediction']]
     labels = history_df[['label']]
@@ -90,8 +90,8 @@ def g():
     
         cm = sns.heatmap(df_cm, annot=True)
         fig = cm.get_figure()
-        fig.savefig("./confusion_matrix.png")
-        dataset_api.upload("./confusion_matrix.png", "Resources/images", overwrite=True)
+        fig.savefig("./wine_confusion_matrix.png")
+        dataset_api.upload("./wine_confusion_matrix.png", "Resources/images", overwrite=True)
     else:
         print("You need at least 4 different wine predictions to create the confusion matrix.")
         print("Run the batch inference pipeline more times until you get at least 4 different wine predictions") 

@@ -64,7 +64,7 @@ def generate_wines(n):
 
     # re-index to have unique primary keys
     max_idx = X.index.max()
-    df.index = df.index + max_idx
+    df["index"] = df.index + max_idx
 
     print(df.head())
 

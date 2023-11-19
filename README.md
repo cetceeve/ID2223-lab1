@@ -42,6 +42,10 @@ and because it tends to predict outliers well, which seems important for this ta
 After all, we are interested in the really good wines.
 
 With this model and the above features, we reach a test accuracy of `~ 63%`.
+One should take note though, that even though only get 63% accuracy, whenn our model misses,
+it usually does not predict something completely off. Our confusion matrix shows that our model
+predicts usually predicts close to the true class, even if when it misses.
+![confusion matrix](./wine/wine_model/confusion_matrix.png)
 
 ### Wine Generation
 For the daily feature pipeline, we implemented a wine generation function that generates wines with similar characteristics

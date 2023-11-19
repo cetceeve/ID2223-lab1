@@ -81,9 +81,9 @@ def g():
     labels = history_df[['label']]
 
     print("Number of different wine predictions to date: " + str(predictions.value_counts().count()))
-    results = confusion_matrix(labels, predictions, labels=range(3, 9))
-    df_cm = pd.DataFrame(results, [f"True: {s}" for s in range(3, 9)],
-                            [f"Pred: {s}" for s in range(3, 9)])
+    results = confusion_matrix(labels, predictions, labels=range(3, 10))
+    df_cm = pd.DataFrame(results, [f"True: {s}" for s in range(3, 10)],
+                            [f"Pred: {s}" for s in range(3, 10)])
 
     cm = sns.heatmap(df_cm, annot=True)
     fig = cm.get_figure()

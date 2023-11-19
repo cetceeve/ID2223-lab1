@@ -6,7 +6,7 @@ LOCAL=False
 
 if LOCAL == False:
    stub = modal.Stub()
-   hopsworks_image = modal.Image.debian_slim().pip_install(["hopsworks","joblib","seaborn","scikit-learn","dataframe-image"])
+   hopsworks_image = modal.Image.debian_slim().pip_install(["hopsworks","joblib","seaborn","scikit-learn","dataframe-image","xgboost"])
    @stub.function(image=hopsworks_image, schedule=modal.Period(days=1), secret=modal.Secret.from_name("hopsworks-api-key"))
    def f():
        g()

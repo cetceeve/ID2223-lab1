@@ -2,12 +2,12 @@ import os
 import modal
 import numpy as np
     
-LOCAL=True
+LOCAL=False
 
 if LOCAL == False:
    stub = modal.Stub()
-   hopsworks_image = modal.Image.debian_slim().pip_install(["hopsworks","joblib","seaborn","sklearn==1.1.1","dataframe-image"])
-   @stub.function(image=hopsworks_image, schedule=modal.Period(days=1), secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
+   hopsworks_image = modal.Image.debian_slim().pip_install(["hopsworks","joblib","seaborn","scikit-learn","dataframe-image"])
+   @stub.function(image=hopsworks_image, schedule=modal.Period(days=1), secret=modal.Secret.from_name("hopsworks-api-key"))
    def f():
        g()
 
@@ -80,21 +80,15 @@ def g():
     predictions = history_df[['prediction']]
     labels = history_df[['label']]
 
-    # Only create the confusion matrix when our wine_predictions feature group has examples of at least 4wine qualities
     print("Number of different wine predictions to date: " + str(predictions.value_counts().count()))
-    if predictions.value_counts().count() > 4:
-        results = confusion_matrix(labels, predictions, labels=range(4, 9))
-    
-        df_cm = pd.DataFrame(results, [f"True: {s}" for s in range(4, 9)],
-                             [f"Pred: {s}" for s in range(4, 9)])
-    
-        cm = sns.heatmap(df_cm, annot=True)
-        fig = cm.get_figure()
-        fig.savefig("./wine_confusion_matrix.png")
-        dataset_api.upload("./wine_confusion_matrix.png", "Resources/images", overwrite=True)
-    else:
-        print("You need at least 4 different wine predictions to create the confusion matrix.")
-        print("Run the batch inference pipeline more times until you get at least 4 different wine predictions") 
+    results = confusion_matrix(labels, predictions, labels=range(3, 9))
+    df_cm = pd.DataFrame(results, [f"True: {s}" for s in range(3, 9)],
+                            [f"Pred: {s}" for s in range(3, 9)])
+
+    cm = sns.heatmap(df_cm, annot=True)
+    fig = cm.get_figure()
+    fig.savefig("./wine_confusion_matrix.png")
+    dataset_api.upload("./wine_confusion_matrix.png", "Resources/images", overwrite=True)
 
 
 if __name__ == "__main__":
